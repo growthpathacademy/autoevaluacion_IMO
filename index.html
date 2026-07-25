@@ -3,515 +3,270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autoevaluación Framework IMO® — Growth Path Academy</title>
+<title>BPO2BPO Consulting & Solutions | Potenciamos personas. Optimizamos operaciones.</title>
+<meta name="description" content="Formación, mentoría, asesoría estratégica y diagnóstico BPO360™ para profesionales y organizaciones de BPO/Contact Center. Más de 25 años de experiencia real.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --navy:#1B3A6B; --teal:#007A78; --sky:#4FC3F7; --gold:#C5A028;
-    --ink:#222222; --mist:#F2F6F8; --line:#E0E8EC;
-    --inicial:#4FC3F7; --basico:#3AA0CC; --gestionado:#007A78; --optimizado:#1B3A6B; --excelencia:#12294D;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    font-family:'Outfit',sans-serif; color:var(--ink); background:#fff;
-    line-height:1.55; min-height:100vh; display:flex; flex-direction:column; align-items:center;
-  }
-  .app{max-width:620px; width:100%; padding:28px 24px 60px; margin:0 auto;}
-  .brandbar{display:flex; align-items:center; justify-content:space-between; padding:8px 0 24px; border-bottom:1px solid var(--line); margin-bottom:28px;}
-  .brandbar .logo{font-weight:800; color:var(--navy); font-size:15px; letter-spacing:.3px;}
-  .brandbar .eyebrow{color:var(--gold); font-weight:700; font-size:12px; letter-spacing:.5px; text-transform:uppercase;}
-
-  .screen{display:none;}
-  .screen.active{display:block; animation:fadein .25s ease;}
-  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
-
-  h1{color:var(--navy); font-size:26px; font-weight:800; margin-bottom:14px; line-height:1.3;}
-  h2{color:var(--navy); font-size:19px; font-weight:700; margin-bottom:10px; line-height:1.35;}
-  p{color:#444; font-size:15px; margin-bottom:14px;}
-  .lead{color:#555; font-size:15px;}
-
-  /* Intro screen */
-  .stat-row{display:flex; gap:20px; margin:20px 0 26px; flex-wrap:wrap;}
-  .stat{background:var(--mist); border-radius:10px; padding:14px 18px; flex:1; min-width:120px; text-align:center;}
-  .stat b{display:block; color:var(--navy); font-size:22px; font-weight:800;}
-  .stat span{color:#666; font-size:11.5px; text-transform:uppercase; letter-spacing:.4px;}
-
-  label.field-label{display:block; font-weight:700; color:var(--navy); font-size:13.5px; margin:18px 0 8px;}
-  .toggle-row{display:flex; gap:10px;}
-  .toggle-btn{
-    flex:1; padding:13px; border:1.5px solid var(--line); border-radius:8px; background:#fff;
-    font-family:'Outfit',sans-serif; font-weight:600; font-size:14px; color:#555; cursor:pointer; text-align:center;
-    transition:all .15s;
-  }
-  .toggle-btn.selected{border-color:var(--teal); background:#E7F5F4; color:var(--teal);}
-  input[type=text]{
-    width:100%; padding:12px 14px; border:1.5px solid var(--line); border-radius:8px;
-    font-family:'Outfit',sans-serif; font-size:14.5px; color:var(--ink);
-  }
-  input[type=text]:focus{outline:none; border-color:var(--teal);}
-
-  .btn{
-    display:inline-block; padding:14px 28px; border-radius:8px; font-weight:700; font-size:15px;
-    border:none; cursor:pointer; font-family:'Outfit',sans-serif; text-decoration:none; text-align:center;
-  }
-  .btn-primary{background:var(--gold); color:#3A2E08;}
-  .btn-primary:hover{background:#B08F22;}
-  .btn-outline{background:#fff; color:var(--navy); border:1.5px solid var(--navy);}
-  .btn-block{width:100%; margin-top:22px;}
-  .btn:disabled{opacity:.45; cursor:not-allowed;}
-
-  /* Progress */
-  .progress-wrap{margin-bottom:26px;}
-  .progress-track{height:6px; background:var(--line); border-radius:4px; overflow:hidden;}
-  .progress-fill{height:100%; background:var(--teal); border-radius:4px; transition:width .3s ease;}
-  .progress-label{font-size:12px; color:#888; margin-top:6px; text-align:right;}
-
-  /* Question screen */
-  .cap-tag{color:var(--gold); font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px;}
-  .q-text{color:var(--navy); font-size:19px; font-weight:700; margin-bottom:22px; line-height:1.4;}
-  .likert{display:flex; flex-direction:column; gap:10px;}
-  .likert-opt{
-    border:1.5px solid var(--line); border-radius:8px; padding:14px 16px; cursor:pointer;
-    font-size:14.5px; font-weight:600; color:#444; transition:all .15s; display:flex; align-items:center; gap:12px;
-  }
-  .likert-opt:hover{border-color:var(--sky);}
-  .likert-opt .dot{width:16px; height:16px; border-radius:50%; border:2px solid var(--line); flex-shrink:0;}
-  .likert-opt.selected{border-color:var(--teal); background:#E7F5F4; color:var(--teal);}
-  .likert-opt.selected .dot{border-color:var(--teal); background:var(--teal);}
-
-  .nav-row{display:flex; justify-content:space-between; margin-top:24px;}
-  .link-btn{background:none; border:none; color:#888; font-family:'Outfit',sans-serif; font-size:14px; font-weight:600; cursor:pointer;}
-  .link-btn:hover{color:var(--navy);}
-
-  /* Results */
-  .gauge-wrap{text-align:center; margin:10px 0 20px;}
-  .gauge-score{font-size:44px; font-weight:800; color:var(--navy); margin-top:-6px;}
-  .gauge-level{font-size:16px; font-weight:700; margin-top:2px;}
-
-  .rank-list{margin:20px 0;}
-  .rank-item{display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--line);}
-  .rank-item:last-child{border-bottom:none;}
-  .rank-name{flex:0 0 190px; font-size:13px; font-weight:600; color:var(--navy);}
-  .rank-bar-track{flex:1; height:10px; background:var(--mist); border-radius:5px; overflow:hidden;}
-  .rank-bar-fill{height:100%; border-radius:5px;}
-  .rank-val{flex:0 0 34px; text-align:right; font-size:12.5px; font-weight:700; color:#666;}
-  .rank-badge{flex:0 0 64px; text-align:center; font-size:10.5px; font-weight:800; padding:3px 6px; border-radius:10px;}
-  .rank-badge.pass{background:#D1E7DD; color:#0F5132;}
-  .rank-badge.fail{background:#F8D7DA; color:#842029;}
-
-  .reco-box{background:var(--mist); border-radius:10px; padding:20px 22px; margin:22px 0;}
-  .reco-box h3{color:var(--navy); font-size:16px; font-weight:700; margin-bottom:8px;}
-  .reco-box p{margin-bottom:0; font-size:14.5px;}
-
-  .cta-stack{display:flex; flex-direction:column; gap:10px; margin-top:18px;}
-
-  .email-box{margin-top:26px; padding-top:20px; border-top:1px solid var(--line);}
-  .email-row{display:flex; gap:8px; margin-top:10px;}
-  .email-row input{flex:1;}
-
-  footer{margin-top:36px; text-align:center; color:#999; font-size:12px;}
-  footer .tag{color:var(--gold); font-style:italic; font-weight:700; margin-top:4px;}
-
-  @media (max-width:480px){
-    .rank-name{flex-basis:130px; font-size:12px;}
-    h1{font-size:22px;}
-  }
-</style>
+<link rel="stylesheet" href="assets/css/style-v3.css">
 </head>
 <body>
-<div class="app">
 
-  <div class="brandbar">
-    <div class="logo">GROWTH PATH ACADEMY</div>
-    <div class="eyebrow">Framework IMO®</div>
-  </div>
-
-  <!-- ============ SCREEN 0: INTRO ============ -->
-  <div class="screen active" id="screen-intro">
-    <h1>Mide la madurez operativa de tu operación en unos minutos</h1>
-    <p class="lead">39 preguntas — 3 por cada una de las 13 capacidades organizacionales del Framework IMO®. Al final obtienes tu resultado por capacidad, ordenado igual que el modelo oficial, y si cumples el Benchmark de 90%.</p>
-
-    <div class="stat-row">
-      <div class="stat"><b>39</b><span>Preguntas</span></div>
-      <div class="stat"><b>~8</b><span>Minutos</span></div>
-      <div class="stat"><b>$0</b><span>Costo</span></div>
-    </div>
-
-    <label class="field-label">¿Qué vas a evaluar?</label>
-    <div class="toggle-row" id="scope-toggle">
-      <div class="toggle-btn" data-scope="Site">Un site completo</div>
-      <div class="toggle-btn" data-scope="Programa">Un programa específico</div>
-    </div>
-
-    <label class="field-label">Nombre del site o programa (opcional)</label>
-    <input type="text" id="scope-name" placeholder="Ej. Site Bogotá / Programa Retención LATAM">
-
-    <button class="btn btn-primary btn-block" id="btn-start">Empezar autoevaluación</button>
-
-    <p style="font-size:12.5px; color:#999; margin-top:14px; text-align:center;">Esta es una autoevaluación orientativa de alto nivel — no sustituye un Diagnóstico Integral BPO360™.</p>
-  </div>
-
-  <!-- ============ SCREEN 1: QUESTIONS (template, filled by JS) ============ -->
-  <div class="screen" id="screen-question">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-      <div class="progress-label" id="progress-label">Pregunta 1 de 39</div>
-    </div>
-    <div class="cap-tag" id="q-cap-tag">CAP-01 · Liderazgo Estratégico</div>
-    <div class="q-text" id="q-text">...</div>
-    <div class="likert" id="q-options"></div>
-    <div class="nav-row">
-      <button class="link-btn" id="btn-back">← Anterior</button>
-      <span></span>
-    </div>
-  </div>
-
-  <!-- ============ SCREEN 2: RESULTS ============ -->
-  <div class="screen" id="screen-results">
-    <h1 id="results-title">Tu resultado</h1>
-    <p class="lead" id="results-scope-line"></p>
-
-    <div class="gauge-wrap">
-      <svg viewBox="0 0 240 140" width="260" style="max-width:100%;">
-        <path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="#E0E8EC" stroke-width="18" stroke-linecap="round"/>
-        <path id="gauge-arc" d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="#007A78" stroke-width="18" stroke-linecap="round" stroke-dasharray="0 315" />
-        <g id="gauge-needle" transform="rotate(0 120 120)">
-          <line x1="120" y1="120" x2="120" y2="35" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
-          <circle cx="120" cy="120" r="7" fill="#1B3A6B"/>
-        </g>
-      </svg>
-      <div class="gauge-score" id="gauge-score">0</div>
-      <div class="gauge-level" id="gauge-level-label">—</div>
-      <div id="benchmark-badge" style="display:inline-block; margin-top:10px; padding:6px 16px; border-radius:20px; font-size:12.5px; font-weight:700;"></div>
-    </div>
-
-    <h2>Tu perfil por capacidad</h2>
-    <p style="font-size:12.5px; color:#888; margin-top:-8px;">Orden CAP-01 a CAP-13 · Benchmark de aprobación: 90/100 en cada una</p>
-    <div class="rank-list" id="rank-list"></div>
-
-    <div class="reco-box" id="reco-box">
-      <h3 id="reco-title">Recomendación</h3>
-      <p id="reco-text">—</p>
-    </div>
-
-    <div class="cta-stack" id="cta-stack"></div>
-
-    <div class="email-box">
-      <label class="field-label" style="margin-top:0;">¿Quieres que te enviemos este resultado y una guía por capacidad?</label>
-      <div class="email-row">
-        <input type="text" id="lead-email" placeholder="tu@correo.com">
-        <button class="btn btn-outline" id="btn-send">Enviar</button>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand"><img src="assets/img/logo-bpo2bpo-v2.png" alt="BPO2BPO Consulting & Solutions"></a>
+    <nav class="main-nav">
+      <a class="nav-link active" href="index.html">Inicio</a>
+      <div class="has-dropdown">
+        <a class="nav-link" href="academia-bpo.html">Academia BPO ▾</a>
+        <div class="dropdown">
+          <a href="academia-bpo.html#ebooks">eBooks / Biblioteca BPO<small>Catálogo completo</small></a>
+          <a href="academia-bpo.html#autoevaluaciones">Autoevaluaciones<small>La Ruta TM / QA</small></a>
+          <a href="newsletter.html">Newsletter<small>El dueño de tus decisiones</small></a>
+        </div>
       </div>
-      <p id="lead-confirm" style="font-size:13px; color:var(--teal); font-weight:600; margin-top:8px; display:none;">Listo, te lo enviamos en breve.</p>
-    </div>
-
-    <button class="link-btn" id="btn-restart" style="margin-top:24px;">Volver a hacer la autoevaluación</button>
+      <a class="nav-link" href="mentoria-profesional.html">Mentoría Profesional</a>
+      <a class="nav-link" href="asesoria-estrategica.html">Asesoría Estratégica</a>
+      <a class="nav-link" href="framework-imo.html">Framework IMO®</a>
+      <div class="has-dropdown">
+        <a class="nav-link" href="bpo360-express.html">BPO360™ ▾</a>
+        <div class="dropdown">
+          <a href="bpo360-express.html">BPO360™ Express<small>Evalúa</small></a>
+          <a href="bpo360-diagnostico-integral.html">BPO360™ Diagnóstico Integral<small>Descubre oportunidades</small></a>
+          <a href="bpo360-implementacion.html">BPO360™ Implementación<small>Transforma</small></a>
+        </div>
+      </div>
+      <a class="nav-link" href="nosotros.html">Nosotros</a>
+      <a class="btn btn-gold btn-sm nav-cta" href="contacto.html">Contacto</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
   </div>
+</header>
 
-  <footer>
-    <div>Framework IMO® · Growth Path Academy</div>
-    <div class="tag">Menos teoría. Más piso.</div>
-  </footer>
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow on-dark">Experiencia real. Impacto medible.</p>
+      <h1>Potenciamos personas.<br>Optimizamos operaciones.<br>Transformamos <span class="accent">resultados.</span></h1>
+      <p class="lead">Acompañamos a profesionales y empresas del Contact Center en cada etapa de su crecimiento, con formación, mentoría, consultoría y soluciones estratégicas basadas en metodologías reales, no en teoría genérica.</p>
+      <div class="hero-ctas">
+        <a href="asesoria-estrategica.html" class="btn btn-gold">Explorar soluciones →</a>
+        <a href="https://hotmart.com/es/club/martin-eduardo-molina-rueda" target="_blank" rel="noopener" class="btn btn-outline">Conocer Biblioteca BPO™</a>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item"><span class="ic">🎓</span> Más de 25 años en la industria BPO</div>
+        <div class="trust-item"><span class="ic">✅</span> Metodologías COPC y John Maxwell Leadership</div>
+        <div class="trust-item"><span class="ic">📊</span> Resultados medibles y sostenibles</div>
+        <div class="trust-item"><span class="ic">🤝</span> Acompañamiento de principio a fin</div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-photo-wrap">
+        <div class="hero-photo">
+          <img src="assets/img/martin-molina.jpg" alt="Martín Molina, Fundador y CEO de BPO2BPO Consulting & Solutions y Growth Path Academy">
+          <div class="caption">
+            <b>Martín Molina</b>
+            <span>Fundador y CEO — BPO2BPO &amp; Growth Path Academy</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card compact">
+        <h3 style="font-size:14.5px;">Todo el conocimiento del Contact Center, en un solo lugar</h3>
+        <ul>
+          <li><span class="chk">✓</span> Biblioteca BPO™: eBooks y recursos</li>
+          <li><span class="chk">✓</span> Mentoría 1:1 para tu carrera</li>
+          <li><span class="chk">✓</span> Asesoría estratégica y BPO360™</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="swoosh" style="background:var(--navy-deep);">
+  <svg viewBox="0 0 1200 46" preserveAspectRatio="none"><path d="M0,46 L1200,0 L1200,46 Z" fill="var(--paper)"></path></svg>
 </div>
 
-<script>
-// ---------------------------------------------------------------
-// DATA
-// ---------------------------------------------------------------
-const CAPACITIES = [
-  { code:'CAP-01', name:'Liderazgo Estratégico' },
-  { code:'CAP-02', name:'Gobierno Operacional' },
-  { code:'CAP-03', name:'Gestión del Desempeño' },
-  { code:'CAP-04', name:'Gestión del Talento' },
-  { code:'CAP-05', name:'Gestión de Procesos' },
-  { code:'CAP-06', name:'Gestión de la Calidad' },
-  { code:'CAP-07', name:'Gestión de Relaciones con el Cliente' },
-  { code:'CAP-08', name:'Gestión de la Experiencia del Cliente' },
-  { code:'CAP-09', name:'Datos e Inteligencia Organizacional' },
-  { code:'CAP-10', name:'Tecnología e Innovación' },
-  { code:'CAP-11', name:'Gestión del Riesgo y Cumplimiento' },
-  { code:'CAP-12', name:'Mejora Continua' },
-  { code:'CAP-13', name:'Cultura Organizacional' },
-];
+<!-- SOLUTIONS FLOW -->
+<section class="section">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2>Soluciones que generan valor en cada etapa</h2>
+      <p>Desde formar tus habilidades hasta transformar tu operación completa — un camino, no piezas sueltas.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-ic">🎓</div>
+        <h4>Formación</h4>
+        <p>eBooks y rutas de aprendizaje en Biblioteca BPO™.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <a class="flow-step" href="mentoria-profesional.html" style="text-decoration:none;">
+        <div class="flow-ic">🧭</div>
+        <h4>Mentoría Profesional</h4>
+        <p>Acompañamiento 1:1 para tu crecimiento.</p>
+      </a>
+      <div class="flow-arrow">→</div>
+      <a class="flow-step" href="asesoria-estrategica.html" style="text-decoration:none;">
+        <div class="flow-ic">🎯</div>
+        <h4>Asesoría Estratégica</h4>
+        <p>Consultoría a la medida de tu operación.</p>
+      </a>
+      <div class="flow-arrow">→</div>
+      <a class="flow-step" href="bpo360-express.html" style="text-decoration:none;">
+        <div class="flow-ic">⚡</div>
+        <h4>BPO360™ Express</h4>
+        <p>Evaluación rápida para identificar oportunidades.</p>
+      </a>
+      <div class="flow-arrow">→</div>
+      <a class="flow-step" href="bpo360-diagnostico-integral.html" style="text-decoration:none;">
+        <div class="flow-ic">🔍</div>
+        <h4>Diagnóstico Integral</h4>
+        <p>Análisis profundo de procesos, personas y tecnología.</p>
+      </a>
+      <div class="flow-arrow">→</div>
+      <a class="flow-step" href="bpo360-implementacion.html" style="text-decoration:none;">
+        <div class="flow-ic">🚀</div>
+        <h4>Implementación</h4>
+        <p>Acompañamiento hasta que el resultado sea medible.</p>
+      </a>
+    </div>
+  </div>
+</section>
 
-const QUESTIONS = [
-  { code:'CAP-01', name:'Liderazgo Estratégico', text:'La estrategia está documentada, comunicada y comprendida en los distintos niveles de la operación.' },
-  { code:'CAP-01', name:'Liderazgo Estratégico', text:'Las decisiones estratégicas se fundamentan en información confiable, no solo en intuición.' },
-  { code:'CAP-01', name:'Liderazgo Estratégico', text:'Existen programas estructurados para desarrollar líderes y preparar su relevo.' },
+<!-- BIBLIOTECA BPO -->
+<section class="section bg-navy">
+  <div class="container">
+    <div class="two-col" style="align-items:center;">
+      <div>
+        <p class="eyebrow on-teal">Biblioteca BPO™</p>
+        <h2>Todo el conocimiento del Contact Center en un solo lugar</h2>
+        <p style="margin-top:14px;">Accede a la colección más completa de eBooks y recursos prácticos para impulsar tu operación y tu carrera — con rutas específicas para Team Managers, QA y liderazgo operativo.</p>
+        <a href="https://hotmart.com/es/club/martin-eduardo-molina-rueda" target="_blank" rel="noopener" class="btn btn-gold" style="margin-top:22px;">Conocer Biblioteca BPO™ →</a>
+      </div>
+      <div class="ebook-grid">
+        <div class="ebook-card">
+          <div class="cover"><img src="assets/img/ebooks/ruta-tm.jpg" alt="La Ruta TM"></div>
+        </div>
+        <div class="ebook-card">
+          <div class="cover"><img src="assets/img/ebooks/ruta-qa.jpg" alt="La Ruta QA"></div>
+        </div>
+        <div class="ebook-card">
+          <div class="cover"><img src="assets/img/ebooks/gestion-conflictos.jpg" alt="Gestión de conflictos"></div>
+        </div>
+        <div class="ebook-card">
+          <div class="cover"><img src="assets/img/ebooks/agua-piedra.jpg" alt="El agua no discute con la piedra"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  { code:'CAP-02', name:'Gobierno Operacional', text:'La estructura organizacional está formalmente definida, sin ambigüedades de autoridad.' },
-  { code:'CAP-02', name:'Gobierno Operacional', text:'Los comités y órganos de gobierno registran y hacen seguimiento formal a sus decisiones.' },
-  { code:'CAP-02', name:'Gobierno Operacional', text:'Existen mecanismos formales de coordinación entre áreas que comparten procesos.' },
+<!-- HOW WE HELP -->
+<section class="section bg-cream">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Enfoques de trabajo</p>
+      <h2>¿Cómo podemos apoyarte?</h2>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="ic">👥</div>
+        <h4>Desarrollo de Talento</h4>
+        <p>Formación práctica para agentes, líderes y equipos de alto desempeño.</p>
+        <a class="more" href="academia-bpo.html">Saber más →</a>
+      </div>
+      <div class="card">
+        <div class="ic">🎧</div>
+        <h4>Mentoría 1:1</h4>
+        <p>Acompañamiento personalizado para tu próximo paso de carrera.</p>
+        <a class="more" href="mentoria-profesional.html">Saber más →</a>
+      </div>
+      <div class="card">
+        <div class="ic">📋</div>
+        <h4>Auditoría y Evaluación</h4>
+        <p>Evaluamos tu operación con objetividad para identificar brechas y oportunidades.</p>
+        <a class="more" href="bpo360-diagnostico-integral.html">Saber más →</a>
+      </div>
+      <div class="card">
+        <div class="ic">📈</div>
+        <h4>Optimización Operacional</h4>
+        <p>Implementamos soluciones que aumentan eficiencia, calidad y rentabilidad.</p>
+        <a class="more" href="bpo360-implementacion.html">Saber más →</a>
+      </div>
+      <div class="card">
+        <div class="ic">💡</div>
+        <h4>Asesoría Estratégica</h4>
+        <p>Consultoría para transformar resultados con criterio operativo real.</p>
+        <a class="more" href="asesoria-estrategica.html">Saber más →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-  { code:'CAP-03', name:'Gestión del Desempeño', text:'Los objetivos de desempeño son claros y se traducen en metas específicas y medibles.' },
-  { code:'CAP-03', name:'Gestión del Desempeño', text:'Cada indicador clave tiene una definición documentada: fórmula, meta y frecuencia.' },
-  { code:'CAP-03', name:'Gestión del Desempeño', text:'Las desviaciones de desempeño generan planes de acción con responsables y plazos.' },
+<!-- CREDENTIALS STRIP -->
+<section class="stats-bar">
+  <div class="container stats-grid">
+    <div class="stat"><b>+25 años</b><span>de experiencia en BPO</span></div>
+    <div class="stat"><b>100+</b><span>Proyectos exitosos</span></div>
+    <div class="stat"><b>5K+</b><span>Profesionales capacitados</span></div>
+    <div class="stat"><b>95%</b><span>Satisfacción de clientes</span></div>
+    <div class="stat"><b>Alianzas</b><span>Estratégicas en la industria</span></div>
+  </div>
+</section>
 
-  { code:'CAP-04', name:'Gestión del Talento', text:'El reclutamiento usa criterios objetivos y cumple metas de tiempo de reposición de vacantes (bolsa de candidatos lista).' },
-  { code:'CAP-04', name:'Gestión del Talento', text:'Existen programas formales de aprendizaje y desarrollo para fortalecer competencias.' },
-  { code:'CAP-04', name:'Gestión del Talento', text:'La organización identifica y desarrolla activamente el talento de alto potencial.' },
+<!-- FINAL CTA -->
+<section class="section tight">
+  <div class="container cta-band" style="border-top:1px solid var(--line);">
+    <div>
+      <h3>Crecemos contigo. Lideramos tu transformación.</h3>
+      <p>Da el siguiente paso hacia una operación más eficiente, equipos más fuertes y clientes más satisfechos.</p>
+    </div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="contacto.html" class="btn btn-gold">Hablemos de tu proyecto →</a>
+      <a href="https://www.calendly.com/martinmolinabpo" target="_blank" rel="noopener" class="btn btn-outline-navy">Agenda una reunión</a>
+    </div>
+  </div>
+</section>
 
-  { code:'CAP-05', name:'Gestión de Procesos', text:'Los procesos clave están documentados, con propietario y criterios de desempeño definidos.' },
-  { code:'CAP-05', name:'Gestión de Procesos', text:'Existen controles que previenen desviaciones y aseguran la calidad de ejecución.' },
-  { code:'CAP-05', name:'Gestión de Procesos', text:'Los procesos se revisan periódicamente para eliminar actividades que no generan valor.' },
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="assets/img/logo-gpa-white.png" alt="Growth Path Academy"></div>
+        <p>BPO2BPO Consulting & Solutions es el brazo de asesoría y consultoría estratégica de Growth Path Academy (GPA), un ecosistema para el crecimiento de profesionales y operaciones de BPO/Contact Center.</p>
+      </div>
+      <div>
+        <h5>Explorar</h5>
+        <a href="academia-bpo.html">Academia BPO</a>
+        <a href="academia-bpo.html#autoevaluaciones">Autoevaluaciones</a>
+        <a href="newsletter.html">Newsletter</a>
+        <a href="mentoria-profesional.html">Mentoría Profesional</a>
+        <a href="asesoria-estrategica.html">Asesoría Estratégica</a>
+        <a href="framework-imo.html">Framework IMO®</a>
+        <a href="nosotros.html">Nosotros</a>
+      </div>
+      <div>
+        <h5>BPO360™</h5>
+        <a href="bpo360-express.html">Express — Evalúa</a>
+        <a href="bpo360-diagnostico-integral.html">Diagnóstico Integral</a>
+        <a href="bpo360-implementacion.html">Implementación</a>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <a href="contacto.html">Todos los canales</a>
+        <a href="https://www.calendly.com/martinmolinabpo" target="_blank" rel="noopener">Agendar reunión</a>
+        <a href="https://www.linkedin.com/in/martinmolina" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="footYear"></span> BPO2BPO Consulting & Solutions — Growth Path Academy.</span>
+      <span>Menos teoría. Más piso.</span>
+    </div>
+  </div>
+</footer>
 
-  { code:'CAP-06', name:'Gestión de la Calidad', text:'Existe un Sistema de Gestión de la Calidad formal, con políticas y responsables definidos.' },
-  { code:'CAP-06', name:'Gestión de la Calidad', text:'Se ejecutan auditorías internas periódicas cuyos resultados se documentan y utilizan.' },
-  { code:'CAP-06', name:'Gestión de la Calidad', text:'Las no conformidades se analizan por causa raíz, no solo se corrigen superficialmente.' },
-
-  { code:'CAP-07', name:'Gestión de Relaciones con el Cliente', text:'Los clientes se segmentan con criterios objetivos de valor y comportamiento.' },
-  { code:'CAP-07', name:'Gestión de Relaciones con el Cliente', text:'Existen mecanismos sistemáticos para capturar y analizar la voz del cliente.' },
-  { code:'CAP-07', name:'Gestión de Relaciones con el Cliente', text:'Las cuentas estratégicas cuentan con planes formales de relacionamiento y seguimiento.' },
-
-  { code:'CAP-08', name:'Gestión de la Experiencia del Cliente', text:'El recorrido del cliente (Customer Journey) está documentado e identifica momentos críticos.' },
-  { code:'CAP-08', name:'Gestión de la Experiencia del Cliente', text:'La experiencia es consistente entre los distintos canales de atención.' },
-  { code:'CAP-08', name:'Gestión de la Experiencia del Cliente', text:'Se mide el esfuerzo y la emoción del cliente, no solo la satisfacción general.' },
-
-  { code:'CAP-09', name:'Datos e Inteligencia Organizacional', text:'Existe un marco formal de gobierno de datos con responsables claros de calidad y custodia.' },
-  { code:'CAP-09', name:'Datos e Inteligencia Organizacional', text:'La organización cuenta con capacidades analíticas que transforman datos en decisiones.' },
-  { code:'CAP-09', name:'Datos e Inteligencia Organizacional', text:'El conocimiento organizacional se documenta y comparte, no depende de personas clave.' },
-
-  { code:'CAP-10', name:'Tecnología e Innovación', text:'La estrategia tecnológica está alineada con la estrategia del negocio y se revisa periódicamente.' },
-  { code:'CAP-10', name:'Tecnología e Innovación', text:'Los procesos susceptibles de automatización se evalúan de forma sistemática.' },
-  { code:'CAP-10', name:'Tecnología e Innovación', text:'Existe un modelo formal para gestionar la innovación, no solo iniciativas aisladas.' },
-
-  { code:'CAP-11', name:'Gestión del Riesgo y Cumplimiento', text:'Existe un modelo formal de gobierno del riesgo con apetito y tolerancia definidos por la Alta Dirección.' },
-  { code:'CAP-11', name:'Gestión del Riesgo y Cumplimiento', text:'Los riesgos significativos tienen responsables, controles y planes de tratamiento definidos.' },
-  { code:'CAP-11', name:'Gestión del Riesgo y Cumplimiento', text:'La organización cuenta con planes de continuidad de negocio probados periódicamente.' },
-
-  { code:'CAP-12', name:'Mejora Continua', text:'Existe una metodología estandarizada para identificar, priorizar e implementar mejoras.' },
-  { code:'CAP-12', name:'Mejora Continua', text:'Los resultados de las mejoras implementadas se miden objetivamente, no se asumen.' },
-  { code:'CAP-12', name:'Mejora Continua', text:'La organización reconoce y promueve activamente las contribuciones a la mejora continua.' },
-
-  { code:'CAP-13', name:'Cultura Organizacional', text:'Los valores institucionales están definidos y se verifica que los comportamientos sean coherentes con ellos.' },
-  { code:'CAP-13', name:'Cultura Organizacional', text:'Los líderes modelan de forma visible los comportamientos y valores esperados.' },
-  { code:'CAP-13', name:'Cultura Organizacional', text:'La organización mide periódicamente su cultura y traduce los hallazgos en planes de acción.' },
-];
-
-const BENCHMARK = 90;
-
-const OPTIONS = [
-  { label:'Nunca', value:1 },
-  { label:'A veces', value:2 },
-  { label:'Casi siempre', value:3 },
-  { label:'Siempre', value:4 },
-];
-
-// value 1-4 -> 0-100 scale (1=>20 ... 4=>100), consistent with Framework IMO official scale
-function toScale100(v){ return Math.round(20 + (v - 1) * (80/3)); }
-
-function levelFor(score){
-  if (score < 40) return { name:'Inicial', color:'var(--inicial)' };
-  if (score < 60) return { name:'Básico', color:'var(--basico)' };
-  if (score < 80) return { name:'Gestionado', color:'var(--gestionado)' };
-  if (score < 95) return { name:'Optimizado', color:'var(--optimizado)' };
-  return { name:'Excelencia', color:'var(--excelencia)' };
-}
-
-// ---------------------------------------------------------------
-// STATE
-// ---------------------------------------------------------------
-let scope = null;
-let scopeName = '';
-let currentQ = 0;
-const answers = new Array(QUESTIONS.length).fill(null);
-
-const screens = {
-  intro: document.getElementById('screen-intro'),
-  question: document.getElementById('screen-question'),
-  results: document.getElementById('screen-results'),
-};
-function showScreen(name){
-  Object.values(screens).forEach(s => s.classList.remove('active'));
-  screens[name].classList.add('active');
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-// ---------------------------------------------------------------
-// INTRO
-// ---------------------------------------------------------------
-document.querySelectorAll('#scope-toggle .toggle-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#scope-toggle .toggle-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    scope = btn.dataset.scope;
-  });
-});
-
-document.getElementById('btn-start').addEventListener('click', () => {
-  scopeName = document.getElementById('scope-name').value.trim();
-  currentQ = 0;
-  renderQuestion();
-  showScreen('question');
-});
-
-// ---------------------------------------------------------------
-// QUESTIONS
-// ---------------------------------------------------------------
-function renderQuestion(){
-  const q = QUESTIONS[currentQ];
-  document.getElementById('progress-fill').style.width = ((currentQ) / QUESTIONS.length * 100) + '%';
-  document.getElementById('progress-label').textContent = `Pregunta ${currentQ + 1} de ${QUESTIONS.length}`;
-  document.getElementById('q-cap-tag').textContent = `${q.code} · ${q.name}`;
-  document.getElementById('q-text').textContent = q.text;
-
-  const optWrap = document.getElementById('q-options');
-  optWrap.innerHTML = '';
-  OPTIONS.forEach(opt => {
-    const div = document.createElement('div');
-    div.className = 'likert-opt' + (answers[currentQ] === opt.value ? ' selected' : '');
-    div.innerHTML = `<span class="dot"></span>${opt.label}`;
-    div.addEventListener('click', () => {
-      answers[currentQ] = opt.value;
-      if (currentQ < QUESTIONS.length - 1) {
-        currentQ++;
-        renderQuestion();
-      } else {
-        computeResults();
-        showScreen('results');
-      }
-    });
-    optWrap.appendChild(div);
-  });
-
-  document.getElementById('btn-back').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
-}
-
-document.getElementById('btn-back').addEventListener('click', () => {
-  if (currentQ > 0) { currentQ--; renderQuestion(); }
-  else { showScreen('intro'); }
-});
-
-// ---------------------------------------------------------------
-// RESULTS
-// ---------------------------------------------------------------
-function computeResults(){
-  // Group the 39 answers into 13 capacities (3 questions each), in CAP-01..CAP-13 order
-  const byCap = CAPACITIES.map(cap => {
-    const qIndexes = [];
-    QUESTIONS.forEach((q, i) => { if (q.code === cap.code) qIndexes.push(i); });
-    const scores = qIndexes.map(i => toScale100(answers[i]));
-    const capScore = Math.round(scores.reduce((s, x) => s + x, 0) / scores.length);
-    return { code: cap.code, name: cap.name, score: capScore, passes: capScore >= BENCHMARK };
-  });
-
-  const overall = Math.round(byCap.reduce((s, x) => s + x.score, 0) / byCap.length);
-  const level = levelFor(overall);
-  const allCapsPass = byCap.every(c => c.passes);
-  const overallCertifies = overall >= BENCHMARK && allCapsPass;
-
-  // Scope line
-  const scopeLabel = scope === 'Programa' ? 'programa' : 'site';
-  document.getElementById('results-scope-line').textContent = scopeName
-    ? `Resultado para: ${scopeName} (${scopeLabel})`
-    : `Resultado a nivel de ${scopeLabel}`;
-
-  // Gauge
-  const pct = Math.max(0, Math.min(100, overall)) / 100;
-  const circumference = Math.PI * 100;
-  document.getElementById('gauge-arc').setAttribute('stroke-dasharray', `${pct * circumference} ${circumference}`);
-  document.getElementById('gauge-arc').setAttribute('stroke', getComputedColor(level.color));
-  const needleAngle = -90 + pct * 180;
-  document.getElementById('gauge-needle').setAttribute('transform', `rotate(${needleAngle} 120 120)`);
-  document.getElementById('gauge-score').textContent = overall;
-  document.getElementById('gauge-score').style.color = getComputedColor(level.color);
-  document.getElementById('gauge-level-label').textContent = level.name;
-  document.getElementById('gauge-level-label').style.color = getComputedColor(level.color);
-
-  const badge = document.getElementById('benchmark-badge');
-  if (overallCertifies) {
-    badge.textContent = `Cumple el Benchmark IMO® (≥ ${BENCHMARK})`;
-    badge.style.background = '#D1E7DD';
-    badge.style.color = '#0F5132';
-  } else {
-    badge.textContent = `Aún no cumple el Benchmark IMO® (${BENCHMARK})`;
-    badge.style.background = '#F8D7DA';
-    badge.style.color = '#842029';
-  }
-
-  // Capacity list — ALWAYS in CAP-01..CAP-13 order, never sorted by score
-  const rankWrap = document.getElementById('rank-list');
-  rankWrap.innerHTML = '';
-  byCap.forEach(item => {
-    const lvl = levelFor(item.score);
-    const row = document.createElement('div');
-    row.className = 'rank-item';
-    row.innerHTML = `
-      <div class="rank-name">${item.code} ${item.name}</div>
-      <div class="rank-bar-track"><div class="rank-bar-fill" style="width:${item.score}%; background:${getComputedColor(lvl.color)};"></div></div>
-      <div class="rank-val">${item.score}</div>
-      <div class="rank-badge ${item.passes ? 'pass' : 'fail'}">${item.passes ? 'Aprueba' : 'No aprueba'}</div>
-    `;
-    rankWrap.appendChild(row);
-  });
-
-  // Recommendation + CTA logic
-  const recoTitle = document.getElementById('reco-title');
-  const recoText = document.getElementById('reco-text');
-  const ctaStack = document.getElementById('cta-stack');
-  ctaStack.innerHTML = '';
-
-  const failing = byCap.filter(c => !c.passes).map(x => x.name);
-  const failingList = failing.slice(0, 3).join(', ') + (failing.length > 3 ? `, entre otras (${failing.length} en total)` : '');
-
-  if (overallCertifies) {
-    recoTitle.textContent = 'Tu operación cumple el Benchmark Oficial IMO®';
-    recoText.textContent = 'Resultado sobresaliente: tanto el global como cada una de las 13 capacidades superan el umbral de 90. El siguiente paso natural es validar este resultado con evidencia a través de un Diagnóstico Integral BPO360™, camino hacia la certificación oficial del Framework IMO®.';
-    ctaStack.innerHTML = `
-      <a class="btn btn-primary" href="#">Validar con Diagnóstico Integral BPO360™</a>
-      <a class="btn btn-outline" href="#">Explorar Biblioteca BPO</a>
-    `;
-  } else if (overall < 60) {
-    recoTitle.textContent = 'Hay brechas importantes que conviene atender con acompañamiento';
-    recoText.textContent = `Ninguna capacidad alcanza aún el Benchmark de 90, y las mayores oportunidades están en ${failingList}. Un Diagnóstico Integral BPO360™ te da el detalle exacto — con evidencia, no solo percepción — y un plan de acción priorizado.`;
-    ctaStack.innerHTML = `
-      <a class="btn btn-primary" href="#">Agenda tu Diagnóstico Integral BPO360™</a>
-      <a class="btn btn-outline" href="#">Explorar Biblioteca BPO</a>
-    `;
-  } else {
-    recoTitle.textContent = 'Vas bien encaminado, pero aún no cumples el Benchmark';
-    recoText.textContent = `Tu resultado global es sólido, pero para aprobar se necesita 90 o más en cada una de las 13 capacidades — hoy no lo alcanzan ${failingList}. La Biblioteca BPO tiene guías específicas para cerrar esas brechas, y un Diagnóstico Integral BPO360™ puede ayudarte a validar y acelerar con evidencia externa.`;
-    ctaStack.innerHTML = `
-      <a class="btn btn-primary" href="#">Explorar Biblioteca BPO</a>
-      <a class="btn btn-outline" href="#">Agenda tu Diagnóstico Integral BPO360™</a>
-    `;
-  }
-}
-
-function getComputedColor(varString){
-  // resolves "var(--xxx)" strings to actual hex using the CSS custom property
-  const name = varString.replace('var(','').replace(')','').trim();
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#007A78';
-}
-
-// ---------------------------------------------------------------
-// LEAD CAPTURE
-// ---------------------------------------------------------------
-// TODO (Martín): conectar este botón a tu backend de captura de leads
-// (mismo patrón de Google Sheets que usas en las autoevaluaciones de La Ruta TM/QA).
-// Por ahora solo confirma visualmente sin enviar datos a ningún lado.
-document.getElementById('btn-send').addEventListener('click', () => {
-  const email = document.getElementById('lead-email').value.trim();
-  if (!email || !email.includes('@')) { return; }
-  document.getElementById('lead-confirm').style.display = 'block';
-});
-
-// ---------------------------------------------------------------
-// RESTART
-// ---------------------------------------------------------------
-document.getElementById('btn-restart').addEventListener('click', () => {
-  answers.fill(null);
-  currentQ = 0;
-  scope = null;
-  scopeName = '';
-  document.getElementById('scope-name').value = '';
-  document.querySelectorAll('#scope-toggle .toggle-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('lead-confirm').style.display = 'none';
-  document.getElementById('lead-email').value = '';
-  showScreen('intro');
-});
-</script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
